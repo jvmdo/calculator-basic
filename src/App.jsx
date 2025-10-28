@@ -1,3 +1,7 @@
+import React from "react";
+
+import { evaluate } from "mathjs";
+
 const numpadEntries = [
   [
     {
@@ -114,12 +118,57 @@ const numpadEntries = [
       id: crypto.randomUUID(),
       type: "operation",
       value: "=",
-      tags: ["=", "res", "result", "calculate"],
+      tags: ["=", "res", "result", "calculate", "enter", "equals"],
     },
   ],
 ];
 
+const allowedCharacters = [
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  ".",
+  "+",
+  "-",
+  "x",
+  "*",
+  "/",
+  "", // Empty is allowed
+  " ", // Spaces are allowed
+];
+
+// "=", submits
+// "Escape", clear input
+
 function App() {
+  const [expression, setExpression] = React.useState("");
+  const inputRef = React.useRef();
+
+  React.useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const handleInput = (event) => {
+    const input = event.target.value;
+    const key = input.at(-1) ?? ""; // [.at()] returns [undefined] for empty strings
+    if (allowedCharacters.includes(key)) {
+      setExpression(input);
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const result = evaluate(expression);
+    setExpression(result);
+  };
+
   return (
     <>
       <header>
@@ -135,21 +184,33 @@ function App() {
         </fieldset>
       </header>
       <main>
-        <label htmlFor="display">Display</label>
-        <div>
-          <input type="text" name="display" id="display" />
-        </div>
-        <div>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="display">Display</label>
           <div>
-            {numpadEntries.map((row) => (
-              <div>
-                {row.map(({ id, value }) => (
-                  <button key={id}>{value}</button>
-                ))}
-              </div>
-            ))}
+            <input
+              ref={inputRef}
+              id="display"
+              type="text"
+              name="expression"
+              required={true}
+              pattern="[0-9\-+\/*x=.]+"
+              title="Only numbers and operators (0-9, ., +, -, x, *, /, =) are allowed"
+              value={expression}
+              onChange={handleInput}
+            />
           </div>
-        </div>
+          <div>
+            <div>
+              {numpadEntries.map((row, index) => (
+                <div key={index}>
+                  {row.map(({ id, type, value }) => (
+                    <button key={id}>{value}</button>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </form>
       </main>
     </>
   );
