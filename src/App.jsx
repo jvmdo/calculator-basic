@@ -145,8 +145,6 @@ const allowedCharacters = [
 ];
 
 // TODO
-// Replace x by *
-// Handle division by 0
 // "Escape", clear input
 
 function App() {
@@ -188,7 +186,7 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const result = safeEvaluate(expression);
+    const result = safeEvaluate(expression.replace("x", "*"));
 
     if (result.success) {
       setExpression(result.data);
