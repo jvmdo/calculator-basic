@@ -1,6 +1,6 @@
 import React from "react";
 
-import { evaluate } from "mathjs";
+import { safeEvaluate } from "./utils/calculator";
 
 const numpadEntries = [
   [
@@ -188,8 +188,13 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const result = evaluate(expression).toString();
-    setExpression(result);
+    const result = safeEvaluate(expression);
+
+    if (result.success) {
+      setExpression(result.data);
+    } else {
+      console.error(result.error);
+    }
   };
 
   return (
