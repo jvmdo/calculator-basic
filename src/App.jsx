@@ -6,25 +6,25 @@ const numpadEntries = [
   [
     {
       id: crypto.randomUUID(),
-      type: "number",
-      value: 7,
+      category: "number",
+      value: "7",
       tags: ["seven"],
     },
     {
       id: crypto.randomUUID(),
-      type: "number",
-      value: 8,
+      category: "number",
+      value: "8",
       tags: ["eight"],
     },
     {
       id: crypto.randomUUID(),
-      type: "number",
-      value: 9,
+      category: "number",
+      value: "9",
       tags: ["nine"],
     },
     {
       id: crypto.randomUUID(),
-      type: "operation",
+      category: "action",
       value: "del",
       tags: ["del", "delete", "backspace", "erase"],
     },
@@ -32,25 +32,25 @@ const numpadEntries = [
   [
     {
       id: crypto.randomUUID(),
-      type: "number",
-      value: 4,
+      category: "number",
+      value: "4",
       tags: ["four"],
     },
     {
       id: crypto.randomUUID(),
-      type: "number",
-      value: 5,
+      category: "number",
+      value: "5",
       tags: ["five"],
     },
     {
       id: crypto.randomUUID(),
-      type: "number",
-      value: 6,
+      category: "number",
+      value: "6",
       tags: ["six"],
     },
     {
       id: crypto.randomUUID(),
-      type: "operation",
+      category: "operation",
       value: "+",
       tags: ["+", "add", "addition", "sum", "plus"],
     },
@@ -58,25 +58,25 @@ const numpadEntries = [
   [
     {
       id: crypto.randomUUID(),
-      type: "number",
-      value: 1,
+      category: "number",
+      value: "1",
       tags: ["one"],
     },
     {
       id: crypto.randomUUID(),
-      type: "number",
-      value: 2,
+      category: "number",
+      value: "2",
       tags: ["two"],
     },
     {
       id: crypto.randomUUID(),
-      type: "number",
-      value: 3,
+      category: "number",
+      value: "3",
       tags: ["three"],
     },
     {
       id: crypto.randomUUID(),
-      type: "operation",
+      category: "operation",
       value: "-",
       tags: ["-", "sub", "subtraction", "minus"],
     },
@@ -84,25 +84,25 @@ const numpadEntries = [
   [
     {
       id: crypto.randomUUID(),
-      type: "symbol",
+      category: "symbol",
       value: ".",
       tags: [".", "dot"],
     },
     {
       id: crypto.randomUUID(),
-      type: "number",
-      value: 0,
+      category: "number",
+      value: "0",
       tags: ["zero"],
     },
     {
       id: crypto.randomUUID(),
-      type: "operation",
+      category: "operation",
       value: "/",
       tags: ["/", "div", "division", "fraction"],
     },
     {
       id: crypto.randomUUID(),
-      type: "operation",
+      category: "operation",
       value: "x",
       tags: ["x", "*", "mul", "multiplication", "times"],
     },
@@ -110,13 +110,13 @@ const numpadEntries = [
   [
     {
       id: crypto.randomUUID(),
-      type: "operation",
+      category: "action",
       value: "reset",
       tags: ["reset", "clear"],
     },
     {
       id: crypto.randomUUID(),
-      type: "operation",
+      category: "action",
       value: "=",
       tags: ["=", "res", "result", "calculate", "enter", "equals"],
     },
@@ -144,7 +144,9 @@ const allowedCharacters = [
   " ", // Spaces are allowed
 ];
 
-// "=", submits
+// TODO
+// Replace x by *
+// Handle division by 0
 // "Escape", clear input
 
 function App() {
@@ -163,9 +165,30 @@ function App() {
     }
   };
 
+  const handleButtonInput = (key) => {
+    const value = key.value;
+
+    if (key.category === "action") {
+      switch (value) {
+        case "del":
+          setExpression((currentExpression) => currentExpression.slice(0, -1));
+          break;
+
+        case "reset":
+          setExpression("");
+          break;
+      }
+      return;
+    }
+
+    if (allowedCharacters.includes(value)) {
+      setExpression((currentExpression) => currentExpression + value);
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const result = evaluate(expression);
+    const result = evaluate(expression).toString();
     setExpression(result);
   };
 
@@ -203,8 +226,14 @@ function App() {
             <div>
               {numpadEntries.map((row, index) => (
                 <div key={index}>
-                  {row.map(({ id, type, value }) => (
-                    <button key={id}>{value}</button>
+                  {row.map(({ id, ...entry }) => (
+                    <NumPadButton
+                      key={id}
+                      entry={entry}
+                      onPress={handleButtonInput}
+                    >
+                      {entry.value}
+                    </NumPadButton>
                   ))}
                 </div>
               ))}
@@ -213,6 +242,19 @@ function App() {
         </form>
       </main>
     </>
+  );
+}
+
+function NumPadButton({ children, entry, onPress }) {
+  return (
+    <button
+      type={entry.value === "=" ? "submit" : "button"}
+      onClick={() => {
+        onPress(entry);
+      }}
+    >
+      {children}
+    </button>
   );
 }
 
