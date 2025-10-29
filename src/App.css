@@ -125,7 +125,8 @@ legend {
   text-align: right;
 
   line-height: 1;
-  padding: 1.5rem;
+  padding-block: 2rem;
+  padding-inline: 1.5rem;
   width: 100%;
 }
 
@@ -142,10 +143,23 @@ legend {
   grid-template-columns: repeat(4, 1fr);
 }
 
+@media (min-width: 768px) {
+  .keypad {
+    gap: 1.5rem;
+  }
+}
+
 .keypad [data-value="reset"],
 .keypad [data-value="="] {
   aspect-ratio: 2 / 1;
   grid-column: span 2 / span 2;
+}
+
+@media (min-width: 768px) {
+  .keypad [data-value="reset"],
+  .keypad [data-value="="] {
+    aspect-ratio: 25 / 7;
+  }
 }
 
 .keypad [data-value="reset"],
@@ -176,12 +190,19 @@ legend {
   border-bottom: 0.25rem solid var(--shadow-key-secondary);
   border-radius: 0.5rem;
   color: var(--text-primary);
+  cursor: pointer;
 
   aspect-ratio: 1 / 1;
   font-size: clamp(2rem, 1.6479rem + 1.5023vw, 3rem);
   line-height: 1;
 
   transition: transform 0.1s ease-out, border-bottom 0.1s ease-out;
+}
+
+@media (min-width: 768px) {
+  .keypad button {
+    aspect-ratio: 5 / 3;
+  }
 }
 
 .keypad button:active {

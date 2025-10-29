@@ -146,8 +146,10 @@ const allowedCharacters = [
 ];
 
 // TODO
+// Error message
 // "Escape", clear input
 // Keep cursor on screen when expression overflows its width
+// Extract potential CSS variables, values that should calc() with variables, spacing, colors
 
 function App() {
   const [expression, setExpression] = React.useState("");
