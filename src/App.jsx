@@ -1,8 +1,9 @@
 import React from "react";
 
+import "./App.css";
 import { safeEvaluate } from "./utils/calculator";
 
-const numpadEntries = [
+const keypadEntries = [
   [
     {
       id: crypto.randomUUID(),
@@ -196,26 +197,28 @@ function App() {
   };
 
   return (
-    <>
+    <div className="container">
       <header>
         <h1>calc</h1>
         <fieldset>
           <legend>Theme</legend>
-          <label htmlFor="theme-1">1</label>
-          <input type="radio" name="themeSwitch" id="theme-1" />
-          <label htmlFor="theme-2">2</label>
-          <input type="radio" name="themeSwitch" id="theme-2" />
-          <label htmlFor="theme-3">3</label>
-          <input type="radio" name="themeSwitch" id="theme-3" />
+          <div className="theme-switch">
+            <label htmlFor="theme-1">1</label>
+            <input type="radio" name="themeSwitch" id="theme-1" />
+            <label htmlFor="theme-2">2</label>
+            <input type="radio" name="themeSwitch" id="theme-2" />
+            <label htmlFor="theme-3">3</label>
+            <input type="radio" name="themeSwitch" id="theme-3" />
+            <div class="ball"></div>
+          </div>
         </fieldset>
       </header>
       <main>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="display">Display</label>
-          <div>
+          <label className="screen">
             <input
               ref={inputRef}
-              id="display"
+              id="screen"
               type="text"
               name="expression"
               required={true}
@@ -224,34 +227,33 @@ function App() {
               value={expression}
               onChange={handleInput}
             />
-          </div>
-          <div>
-            <div>
-              {numpadEntries.map((row, index) => (
-                <div key={index}>
-                  {row.map(({ id, ...entry }) => (
-                    <NumPadButton
-                      key={id}
-                      entry={entry}
-                      onPress={handleButtonInput}
-                    >
-                      {entry.value}
-                    </NumPadButton>
-                  ))}
-                </div>
-              ))}
+          </label>
+          <div className="keypad-wrapper">
+            <div className="keypad">
+              {keypadEntries.map((row) =>
+                row.map(({ id, ...entry }) => (
+                  <KeyPadButton
+                    key={id}
+                    entry={entry}
+                    onPress={handleButtonInput}
+                  >
+                    {entry.value}
+                  </KeyPadButton>
+                ))
+              )}
             </div>
           </div>
         </form>
       </main>
-    </>
+    </div>
   );
 }
 
-function NumPadButton({ children, entry, onPress }) {
+function KeyPadButton({ children, entry, onPress }) {
   return (
     <button
       type={entry.value === "=" ? "submit" : "button"}
+      data-value={entry.value}
       onClick={() => {
         onPress(entry);
       }}
