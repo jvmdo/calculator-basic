@@ -16,79 +16,115 @@ header {
   justify-content: space-between;
 }
 
-legend {
-  float: inline-start;
+h1 {
+  flex: 5;
+
   color: var(--text-white);
-  text-transform: uppercase;
+  font-size: clamp(2.4rem, 1.9246rem + 2.0282vw, 3.75rem);
 }
 
 fieldset {
-  border: none;
+  flex: 4;
 
   display: flex;
-  flex-direction: row;
-  gap: 3rem;
+  align-items: end;
+  justify-content: space-between;
+}
 
-  width: 40%;
-  border: 1px dashed dodgerblue;
+legend {
+  flex: 5;
+
+  float: inline-start;
+  color: var(--text-white);
+  text-transform: uppercase;
+
+  font-size: small;
 }
 
 .theme-switch {
-  position: relative;
+  flex: 4;
 
+  position: relative;
   display: flex;
-  width: 100%;
 
   border-radius: 9999px;
   background-color: var(--bg-switch);
 
-  padding: 0.25rem;
+  --padding-x: 0.4rem;
+  padding-inline: var(--padding-x);
+  padding-block: calc(3 / 4 * var(--padding-x));
 }
 
 .theme-switch input {
-  /* position: absolute; */
-  /* opacity: 0; */
-  /* width: 20px; */
+  cursor: pointer;
+  height: 1rem;
+  opacity: 0;
   flex: 1;
 }
 
-.theme-switch label:nth-child(1) {
-  color: white;
+.theme-switch label {
   position: absolute;
-  top: -2rem;
-  width: calc(100% / 3); /* Adjust for 3 options */
-  text-align: center;
+  top: -50%;
+  z-index: 1;
+
+  color: var(--text-white);
   cursor: pointer;
-  z-index: 1; /* Ensure labels are above selector */
+
+  font-size: small;
+  padding-inline: 12%;
 }
 
 .ball {
+  padding: 12%;
+
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: calc(100% / 3); /* Adjust for 3 options */
-  background-color: #007bff;
+  top: 50%;
+  transition: left 0.3s ease-in-out, transform 0.5s ease-out;
+
+  background-color: var(--bg-key-accent);
   border-radius: 9999px;
-  transition: left 0.3s ease-in-out;
-  z-index: 0; /* Ensure selector is below labels */
 }
 
+#theme-1 + label,
 #theme-1:checked ~ .ball {
-  left: 0;
+  left: var(--padding-x);
+  transform: translate(0, -50%);
 }
 
+#theme-2 + label,
 #theme-2:checked ~ .ball {
-  left: calc(100% / 3);
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
+#theme-3 + label,
 #theme-3:checked ~ .ball {
-  left: calc(2 * (100% / 3));
+  left: calc(100% - var(--padding-x));
+  transform: translate(-100%, -50%);
+}
+
+.screen {
+  display: block;
+  background-color: var(--bg-screen);
+  border-radius: 0.75rem;
+}
+
+.screen input {
+  background-color: transparent;
+  border: none;
+  color: var(--text-white);
+
+  font-size: clamp(2.4rem, 1.9246rem + 2.0282vw, 3.75rem);
+  text-align: right;
+
+  line-height: 1;
+  padding: 1.5rem;
+  width: 100%;
 }
 
 .keypad-wrapper {
   background-color: var(--bg-keypad);
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 
   padding: 1.5rem;
 }
@@ -154,23 +190,4 @@ form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-}
-
-.screen {
-  display: block;
-  background-color: var(--bg-screen);
-  border-radius: 0.5rem;
-}
-
-.screen input {
-  background-color: transparent;
-  border: none;
-  color: var(--text-white);
-
-  font-size: clamp(2.4rem, 1.9246rem + 2.0282vw, 3.75rem);
-  text-align: right;
-
-  line-height: 1;
-  padding: 1.5rem;
-  width: 100%;
 }

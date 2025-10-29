@@ -147,6 +147,7 @@ const allowedCharacters = [
 
 // TODO
 // "Escape", clear input
+// Keep cursor on screen when expression overflows its width
 
 function App() {
   const [expression, setExpression] = React.useState("");
@@ -203,12 +204,17 @@ function App() {
         <fieldset>
           <legend>Theme</legend>
           <div className="theme-switch">
+            <input
+              type="radio"
+              name="themeSwitch"
+              id="theme-1"
+              defaultChecked={true}
+            />
             <label htmlFor="theme-1">1</label>
-            <input type="radio" name="themeSwitch" id="theme-1" />
-            <label htmlFor="theme-2">2</label>
             <input type="radio" name="themeSwitch" id="theme-2" />
-            <label htmlFor="theme-3">3</label>
+            <label htmlFor="theme-2">2</label>
             <input type="radio" name="themeSwitch" id="theme-3" />
+            <label htmlFor="theme-3">3</label>
             <div class="ball"></div>
           </div>
         </fieldset>
