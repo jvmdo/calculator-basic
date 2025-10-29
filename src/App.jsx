@@ -154,6 +154,18 @@ const allowedCharacters = [
 function App() {
   const [expression, setExpression] = React.useState("");
   const inputRef = React.useRef();
+  const [theme, setTheme] = React.useState(() => {
+    const query = "(prefers-color-scheme: light)";
+    const preferredColorScheme = window.matchMedia(query).matches ? 2 : 3;
+    const localTheme = localStorage.getItem("theme");
+
+    return Number(localTheme ?? preferredColorScheme);
+  });
+
+  React.useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   React.useEffect(() => {
     inputRef.current.focus();
@@ -210,14 +222,36 @@ function App() {
               type="radio"
               name="themeSwitch"
               id="theme-1"
-              defaultChecked={true}
+              value={1}
+              checked={theme === 1}
+              onChange={(event) => {
+                setTheme(Number(event.target.value));
+              }}
             />
             <label htmlFor="theme-1">1</label>
-            <input type="radio" name="themeSwitch" id="theme-2" />
+            <input
+              type="radio"
+              name="themeSwitch"
+              id="theme-2"
+              value={2}
+              checked={theme === 2}
+              onChange={(event) => {
+                setTheme(Number(event.target.value));
+              }}
+            />
             <label htmlFor="theme-2">2</label>
-            <input type="radio" name="themeSwitch" id="theme-3" />
+            <input
+              type="radio"
+              name="themeSwitch"
+              id="theme-3"
+              value={3}
+              checked={theme === 3}
+              onChange={(event) => {
+                setTheme(Number(event.target.value));
+              }}
+            />
             <label htmlFor="theme-3">3</label>
-            <div class="ball"></div>
+            <div className="ball"></div>
           </div>
         </fieldset>
       </header>

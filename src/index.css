@@ -74,8 +74,7 @@ h6 {
   Theming
 */
 
-/* Theme 1 */
-:root {
+:root[data-theme="1"] {
   /* Backgrounds */
   --bg-main: hsl(222, 26%, 31%);
   --bg-switch: hsl(223, 31%, 20%);
@@ -94,11 +93,11 @@ h6 {
 
   /* Text */
   --text-primary: hsl(221, 14%, 31%);
+  --text-flip: hsl(0, 100%, 100%);
   --text-white: hsl(0, 100%, 100%);
 }
 
-/* Theme 2 */
-[data-theme="2"] {
+:root[data-theme="2"] {
   /* Backgrounds */
   --bg-main: hsl(0, 0%, 90%);
   --bg-switch: hsl(0, 5%, 81%);
@@ -120,8 +119,7 @@ h6 {
   --text-white: hsl(0, 100%, 100%);
 }
 
-/* Theme 3 */
-[data-theme="3"] {
+:root[data-theme="3"] {
   /* Backgrounds */
   --bg-main: hsl(268, 75%, 9%);
   --bg-switch: hsl(268, 71%, 12%);
@@ -153,6 +151,8 @@ h6 {
   min-width: 20rem;
 
   background-color: var(--bg-main);
+
+  transition: all 800ms cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 button {
