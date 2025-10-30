@@ -1,0 +1,73 @@
+.keypad {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (min-width: 768px) {
+  .keypad {
+    gap: 1.5rem;
+  }
+}
+
+.keypad [data-value="reset"],
+.keypad [data-value="="] {
+  aspect-ratio: 2 / 1;
+  grid-column: span 2 / span 2;
+}
+
+@media (min-width: 768px) {
+  .keypad [data-value="reset"],
+  .keypad [data-value="="] {
+    aspect-ratio: 25 / 7;
+  }
+}
+
+.keypad [data-value="reset"],
+.keypad [data-value="del"] {
+  --bg-color: var(--bg-key-primary);
+
+  background-color: var(--bg-color);
+  border-color: var(--shadow-key-primary);
+  color: var(--text-white);
+  font-size: clamp(1.3889rem, 1.2019rem + 0.7979vw, 1.92rem);
+  text-transform: uppercase;
+}
+
+.keypad [data-value="="] {
+  --bg-color: var(--bg-key-accent);
+
+  background-color: var(--bg-color);
+  border-color: var(--shadow-key-accent);
+  color: var(--text-white);
+
+  font-size: clamp(1.3889rem, 1.2019rem + 0.7979vw, 1.92rem);
+}
+
+.keypad button {
+  --bg-color: var(--bg-key-secondary);
+
+  background-color: var(--bg-color);
+  border-bottom: 0.25rem solid var(--shadow-key-secondary);
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  cursor: pointer;
+
+  aspect-ratio: 1 / 1;
+  font-size: clamp(2rem, 1.6479rem + 1.5023vw, 3rem);
+  line-height: 1;
+
+  transition: transform 0.1s ease-out, border-bottom 0.1s ease-out;
+}
+
+@media (min-width: 768px) {
+  .keypad button {
+    aspect-ratio: 5 / 3;
+  }
+}
+
+.keypad button:active {
+  background-color: hsl(from var(--bg-color) h calc(s + 20) calc(l + 20));
+  border-bottom-width: 0.05rem;
+  transform: translateY(2px);
+}

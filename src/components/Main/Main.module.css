@@ -1,0 +1,12 @@
+.keypad-wrapper {
+  background-color: var(--bg-keypad);
+  border-radius: 0.75rem;
+
+  padding: 1.5rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}

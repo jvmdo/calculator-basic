@@ -1,0 +1,19 @@
+.screen {
+  display: block;
+  background-color: var(--bg-screen);
+  border-radius: 0.75rem;
+}
+
+.screen input {
+  background-color: transparent;
+  border: none;
+  color: var(--text-flip, var(--text-primary));
+
+  font-size: clamp(2.4rem, 1.9246rem + 2.0282vw, 3.75rem);
+  text-align: right;
+
+  line-height: 1;
+  padding-block: 2rem;
+  padding-inline: 1.5rem;
+  width: 100%;
+}
